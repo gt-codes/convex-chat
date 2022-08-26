@@ -3,14 +3,10 @@ import { unstable_getServerSession } from 'next-auth';
 import { useMutation, useQuery } from '../../convex/_generated/react';
 import AddRoomForm from '../components/AddRoomForm';
 import { authOptions } from './api/auth/[...nextauth]';
-import convexConfig from '../../convex.json';
-import { ConvexHttpClient } from 'convex/browser';
 import Header from '../components/Header';
 import RoomsList from '../components/RoomsList';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-
-const convex = new ConvexHttpClient(convexConfig.origin);
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
@@ -23,12 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 		};
 	}
-	console.log({ session });
-	const user = await convex.query('getUser')(session.user?.email);
 
 	return {
 		props: {
-			email: user.email,
+			email: session.user?.email,
 		},
 	};
 };
