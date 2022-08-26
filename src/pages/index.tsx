@@ -1,12 +1,14 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
-import { useQuery } from '../../convex/_generated/react';
+import { useMutation, useQuery } from '../../convex/_generated/react';
 import AddRoomForm from '../components/AddRoomForm';
 import { authOptions } from './api/auth/[...nextauth]';
 import convexConfig from '../../convex.json';
 import { ConvexHttpClient } from 'convex/browser';
 import Header from '../components/Header';
 import RoomsList from '../components/RoomsList';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const convex = new ConvexHttpClient(convexConfig.origin);
 
@@ -36,7 +38,16 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ email }) => {
+	const { data } = useSession();
 	const user = useQuery('getUser', email);
+	const userMutation = useMutation('createUser');
+
+	useEffect(() => {
+		if (data) {
+			userMutation({ email: data.user?.email as string });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data]);
 
 	return (
 		<div className='bg-[#fafafa] items-center relative w-screen h-screen flex flex-col'>
