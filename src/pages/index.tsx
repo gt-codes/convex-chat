@@ -1,38 +1,51 @@
-import { GenericId } from 'convex/values';
-import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useMutation, useQuery } from '../../convex/_generated/react';
+import type { GetServerSideProps, NextPage } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import { useQuery } from '../../convex/_generated/react';
 import AddRoomForm from '../components/AddRoomForm';
+import { authOptions } from './api/auth/[...nextauth]';
+import convexConfig from '../../convex.json';
+import { ConvexHttpClient } from 'convex/browser';
+import Header from '../components/Header';
+import RoomsList from '../components/RoomsList';
 
-const Home: NextPage = () => {
-	const { data } = useSession();
-	const user = useQuery('getUser', data?.user?.email ?? '');
-	const rooms = useQuery('getRooms', (user?._id as GenericId<'users'>) ?? '');
-	const userMutation = useMutation('createUser');
+const convex = new ConvexHttpClient(convexConfig.origin);
 
-	useEffect(() => {
-		if (data) {
-			userMutation({ email: data.user?.email as string });
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data]);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
 
-	console.log({ data, rooms });
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/auth',
+				permanent: false,
+			},
+		};
+	}
+	console.log({ session });
+	const user = await convex.query('getUser')(session.user?.email);
+
+	return {
+		props: {
+			email: user.email,
+		},
+	};
+};
+
+type Props = {
+	email: string;
+};
+
+const Home: NextPage<Props> = ({ email }) => {
+	const user = useQuery('getUser', email);
 
 	return (
-		<div className='p-12 flex flex-col space-y-16'>
-			<p>{user?.email}</p>
-			{rooms && (
-				<ul>
-					{rooms.map((room) => (
-						<li key={room._id.id} className='text-red-200'>
-							{room.name}
-						</li>
-					))}
-				</ul>
-			)}
-			<AddRoomForm />
+		<div className='bg-[#fafafa] items-center relative w-screen h-screen flex flex-col'>
+			<Header />
+			<div className='w-full max-w-3xl flex flex-col items-start'>
+				<AddRoomForm />
+				<h3 className='mt-16 text-lg font-medium text-gray-600'>Your Rooms</h3>
+				{user && <RoomsList userId={user._id} />}
+			</div>
 		</div>
 	);
 };

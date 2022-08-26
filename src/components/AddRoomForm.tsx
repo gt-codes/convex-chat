@@ -25,7 +25,7 @@ export default function AddRoomForm() {
 	}, [data]);
 
 	return (
-		<form onSubmit={handleSubmit} className='mt-12 max-w-[400px]'>
+		<form onSubmit={handleSubmit} className='mt-12 mx-auto w-full max-w-[400px]'>
 			<div className='flex flex-col space-y-2'>
 				<label htmlFor='roomName' className='block text-sm font-medium text-gray-700'>
 					Room Name

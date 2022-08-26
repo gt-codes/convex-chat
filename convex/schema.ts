@@ -7,8 +7,8 @@ export default defineSchema({
 	}),
 	messages: defineTable({
 		content: s.string(),
-		room: s.id('rooms'),
-		user: s.id('users'),
+		room: s.string(),
+		sender: s.id('users'),
 	}),
 	users: defineTable({
 		email: s.string(),
