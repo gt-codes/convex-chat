@@ -8,7 +8,7 @@ import convexConfig from '../../../convex.json';
 import { ConvexHttpClient } from 'convex/browser';
 import { format } from 'date-fns';
 import { GenericId } from 'convex/values';
-import { PaperAirplaneIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, PaperAirplaneIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import AddMemberDialog from '../../components/AddMemberDialog';
 
 const convex = new ConvexHttpClient(convexConfig.origin);
@@ -39,7 +39,7 @@ type Props = {
 };
 
 export default function RoomPage({ email }: Props) {
-	const { query } = useRouter();
+	const { query, back } = useRouter();
 	const user = useQuery('getUser', email);
 	const [showModal, setShowModal] = React.useState(false);
 	const [content, setContent] = React.useState('');
@@ -62,6 +62,10 @@ export default function RoomPage({ email }: Props) {
 		<>
 			<AddMemberDialog room={query.id as string} show={showModal} onClose={() => setShowModal(false)} />
 			<div className='w-full bg-white h-full'>
+				<div onClick={() => back()} className='mt-2 ml-2 w-min flex cursor-pointer items-center space-x-1'>
+					<ChevronLeftIcon className='h-4 w-4' aria-hidden='true' />
+					<p className='text-gray-600 text-sm'>Back</p>
+				</div>
 				<div className='rounded-lg shadow-sm p-2 m-2 flex items-center justify-between'>
 					<div>
 						<h2 className='font-medium text-lg text-gray-600'>{room?.name}</h2>
