@@ -9,10 +9,12 @@
  * @module
  */
 
+import type addMemberToRoom from "../addMemberToRoom";
 import type createMessage from "../createMessage";
 import type createRoom from "../createRoom";
 import type createUser from "../createUser";
 import type getMessages from "../getMessages";
+import type getRoom from "../getRoom";
 import type getRooms from "../getRooms";
 import type getUser from "../getUser";
 import type { OptimisticLocalStore as GenericOptimisticLocalStore } from "convex/browser";
@@ -30,10 +32,12 @@ import type { ClientMutation, ClientQuery } from "convex/server";
 export type ConvexAPI = {
   queries: {
     getMessages: ClientQuery<typeof getMessages>;
+    getRoom: ClientQuery<typeof getRoom>;
     getRooms: ClientQuery<typeof getRooms>;
     getUser: ClientQuery<typeof getUser>;
   };
   mutations: {
+    addMemberToRoom: ClientMutation<typeof addMemberToRoom>;
     createMessage: ClientMutation<typeof createMessage>;
     createRoom: ClientMutation<typeof createRoom>;
     createUser: ClientMutation<typeof createUser>;
