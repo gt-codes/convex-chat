@@ -5,7 +5,9 @@ export default query(async ({ db }, userId: GenericId<'users'> | null | undefine
 	if (!userId) return null;
 	console.log('finding rooms');
 
-	const rooms = db.table('rooms').filter((q) => q.eq(q.field('creator'), userId));
+	const rooms = await db.table('rooms').collect();
 
-	return rooms.collect();
+	const filteredRooms = rooms.filter((el) => el.members.some((member) => member.id === userId.id));
+	console.log({ filteredRooms });
+	return rooms;
 });

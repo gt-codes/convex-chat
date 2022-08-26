@@ -3,6 +3,7 @@ import { defineSchema, defineTable, s } from 'convex/schema';
 export default defineSchema({
 	rooms: defineTable({
 		creator: s.id('users'),
+		members: s.array(s.id('users')),
 		name: s.string(),
 	}),
 	messages: defineTable({
