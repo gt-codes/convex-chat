@@ -7,7 +7,16 @@ export default query(async ({ db }, userId: GenericId<'users'> | null | undefine
 
 	const rooms = await db.table('rooms').collect();
 
-	const filteredRooms = rooms.filter((el) => el.members.some((member) => member.id === userId.id));
+	const filteredRooms = rooms.forEach((el) => {
+		if (el.members.some((member) => member.id === userId.id)) {
+			console.log({
+				roomName: el.name,
+				userId: userId.id,
+				members: el.members.map((el) => el.id),
+			});
+		}
+		return el.members.some((member) => member.id === userId.id);
+	});
 	console.log({ filteredRooms });
-	return rooms;
+	return rooms.filter((el) => el.members.some((member) => member.id === userId.id));
 });

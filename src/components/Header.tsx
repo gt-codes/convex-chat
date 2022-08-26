@@ -1,10 +1,12 @@
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 
 export default function Header() {
+	const { data } = useSession();
 	return (
 		<div className='sticky w-full top-0 bg-white p-8 '>
 			<h1 className='text-xl font-bold text-center'>Convex Chat</h1>
+			<p className='text-xs text-center'>{data?.user?.email}</p>
 			<button
 				type='button'
 				onClick={() => signOut({ callbackUrl: '/auth' })}

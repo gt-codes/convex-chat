@@ -58,8 +58,6 @@ export default function RoomPage({ email }: Props) {
 		setContent('');
 	};
 
-	console.log({ room });
-
 	return (
 		<>
 			<AddMemberDialog room={query.id as string} show={showModal} onClose={() => setShowModal(false)} />
