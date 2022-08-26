@@ -44,14 +44,11 @@ const Home: NextPage<Props> = ({ email }) => {
 	}, [data]);
 
 	return (
-		<div className='bg-[#fafafa] items-center relative w-screen h-screen flex flex-col'>
-			<Header />
-			<div className='w-full max-w-3xl flex flex-col items-start'>
-				<AddRoomForm />
-				<h3 className='mt-16 text-lg font-medium text-gray-600'>Your Rooms</h3>
-				{user && <RoomsList userId={user._id} />}
-			</div>
-		</div>
+		<>
+			<AddRoomForm />
+			<h3 className='mt-16 text-lg font-medium text-gray-600'>Your Rooms</h3>
+			{user && <RoomsList userId={user._id} />}
+		</>
 	);
 };
 

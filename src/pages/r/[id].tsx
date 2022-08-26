@@ -55,10 +55,22 @@ export default function RoomPage({ email }: Props) {
 	};
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit} className='mt-12 mx-auto w-full max-w-[400px]'>
-				<div className='flex flex-col space-y-2'>
-					<label htmlFor='content' className='block text-sm font-medium text-gray-700'>
+		<div className='w-full bg-white h-full'>
+			<ul className='bg-white w-full min-h-full overflow-y-scroll mt-3 p-3 rounded-lg space-y-3 divide-y divide-gray-50'>
+				{messages?.map((message) => (
+					<li key={message._id.id} className='text-gray-800'>
+						<div className=''>
+							<p className='text-gray-800 font-medium'>{message.content}</p>
+							<p className='text-gray-400 text-xs font-light'>
+								{format(message._creationTime, 'MMM do, yyyy h:mm a')}
+							</p>
+						</div>
+					</li>
+				))}
+			</ul>
+			<div className='bg-white sticky bottom-0'>
+				<form onSubmit={handleSubmit} className='w-full flex space-x-3 bottom-0 p-3'>
+					<label htmlFor='content' className='sr-only'>
 						New Message
 					</label>
 					<input
@@ -72,23 +84,11 @@ export default function RoomPage({ email }: Props) {
 					/>
 					<button
 						type='submit'
-						className='inline-block items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+						className='inline-block items-center px-12 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
 						Send
 					</button>
-				</div>
-			</form>
-			<ul className='bg-white w-full mt-3 p-3 rounded-lg space-y-3 divide-y divide-gray-50'>
-				{messages?.map((message) => (
-					<li key={message._id.id} className='text-gray-800'>
-						<div className=''>
-							<p className='text-gray-800 font-medium'>{message.content}</p>
-							<p className='text-gray-400 text-xs font-light'>
-								{format(message._creationTime, 'MMM do, yyyy h:mm a')}
-							</p>
-						</div>
-					</li>
-				))}
-			</ul>
+				</form>
+			</div>
 		</div>
 	);
 }
