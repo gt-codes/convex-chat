@@ -33,6 +33,7 @@ jobs:
 
       - name: Updating convex
         run: |
+          npx convex init
           npx convex push
 
       - name: Build project
