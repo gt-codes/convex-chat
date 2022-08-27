@@ -6,6 +6,7 @@ on:
 
 env:
   NODE_VERSION: "14.x" # set this to the node version to use
+  CONVEX_ADMIN_KEY: ${{ secrets.CONVEX_ADMIN_KEY }}
 
 permissions:
   contents: read
@@ -28,7 +29,7 @@ jobs:
 
       - name: Loging into Convex
         run: |
-          npx convex login
+          npx convex login --device-name=gitactions --no-open -f
 
       - name: Updating convex
         run: |
