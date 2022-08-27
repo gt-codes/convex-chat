@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '14.x'                # set this to the node version to use
+  NODE_VERSION: "14.x" # set this to the node version to use
 
 permissions:
   contents: read
@@ -14,23 +14,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'yarn'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
 
-    - name: Install packages
-      run: |
-        yarn
-        
-    - name: Build project
-      run: yarn build
+      - name: Install packages
+        run: |
+          yarn
 
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: node-app
-        path: .
+      - name: Loging into Convex
+        run: |
+          npx convex login
+
+      - name: Updating convex
+        run: |
+          npx convex push
+
+      - name: Build project
+        run: yarn build
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-app
+          path: .
