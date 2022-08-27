@@ -33,6 +33,7 @@ jobs:
 
       - name: Updating convex
         run: |
+          npx convex init
           pwd
           ls -la
           npx convex push
