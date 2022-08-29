@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { GenericId } from 'convex/values';
 import { ChevronLeftIcon, PaperAirplaneIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import AddMemberDialog from '../../components/AddMemberDialog';
+import Message from '../../components/Message';
 
 const convex = new ConvexHttpClient(convexConfig.origin);
 
@@ -79,16 +80,9 @@ export default function RoomPage({ email }: Props) {
 						Add member
 					</button>
 				</div>
-				<ul className='bg-white w-full min-h-full overflow-y-scroll mt-3 p-3 rounded-lg space-y-3 divide-y divide-gray-50'>
+				<ul className='bg-white w-full min-h-full overflow-y-scroll mt-3 p-3 rounded-lg space-y-1'>
 					{messages?.map((message) => (
-						<li key={message._id.id} className='text-gray-800'>
-							<div className=''>
-								<p className='text-gray-800 font-medium'>{message.content}</p>
-								<p className='text-gray-400 text-xs font-light'>
-									{format(message._creationTime, 'MMM do, yyyy h:mm a')}
-								</p>
-							</div>
-						</li>
+						<Message key={message._id.id} message={message} isSender={user?._id.id === message.sender.id} />
 					))}
 				</ul>
 				<div className='bg-white sticky bottom-0'>
