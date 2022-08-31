@@ -25,6 +25,15 @@ jobs:
       - name: Install packages
         run: yarn
 
+      - name: Install Vercel CLI
+        run: yarn global add vercel
+
+      - name: Setting up Vercel Project
+        run: |
+          vercel login --github
+          vercel link --project=convex-chat
+          vercel pull
+
       - name: Updating .env.local file
         env:
           NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
@@ -44,10 +53,6 @@ jobs:
         run: npx convex push
 
       - name: Build project
-        run: yarn build
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-app
-          path: .
+        run: |
+          yarn build
+          vercel deploy --prebuilt
