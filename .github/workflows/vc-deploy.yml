@@ -48,9 +48,6 @@ jobs:
           echo "GITHUB_ID=$GITHUB_ID" >> .env.local
           echo "GITHUB_SECRET=$GITHUB_SECRET" >> .env.local
 
-      - name: Loging into Convex
-        run: npx convex login -f
-
       - name: Updating convex
         run: npx convex push
 
