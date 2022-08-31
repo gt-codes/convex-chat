@@ -6,7 +6,7 @@ on:
 
 env:
   NODE_VERSION: "14.x" # set this to the node version to use
-  # CONVEX_ADMIN_KEY: ${{ secrets.CONVEX_ADMIN_KEY }}
+  CONVEX_ADMIN_KEY: ${{ secrets.CONVEX_ADMIN_KEY }}
 permissions:
   contents: read
 
