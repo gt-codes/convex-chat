@@ -29,8 +29,10 @@ jobs:
         run: yarn global add vercel
 
       - name: Setting up Vercel Project
+        env:
+          VERCEL_EMAIL: ${{secrets.VERCEL_EMAIL}}
         run: |
-          vercel login --github
+          vercel login $VERCEL_EMAIL
           vercel link -y --project=convex-chat
           vercel pull -y
 
