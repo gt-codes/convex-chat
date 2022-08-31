@@ -31,8 +31,8 @@ jobs:
       - name: Setting up Vercel Project
         run: |
           vercel login --github
-          vercel link --project=convex-chat
-          vercel pull
+          vercel link -y --project=convex-chat
+          vercel pull -y
 
       - name: Updating .env.local file
         env:
