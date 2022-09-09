@@ -12,7 +12,7 @@ const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => 
 			<SessionProvider session={session}>
 				<div className='bg-[#fafafa] items-center relative w-screen h-screen flex flex-col'>
 					<Header />
-					<div className='w-full max-w-3xl flex flex-col grow items-start overflow-y-scroll'>
+					<div className='w-full max-w-3xl flex flex-col grow items-start overflow-y-scroll scrollbar-hide'>
 						<Component {...pageProps} />
 					</div>
 				</div>
