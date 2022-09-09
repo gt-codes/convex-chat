@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: "14.x" # set this to the node version to use
+  NODE_VERSION: "14.x"
   CONVEX_ADMIN_KEY: ${{ secrets.CONVEX_ADMIN_KEY }}
 permissions:
   contents: read
@@ -26,15 +26,12 @@ jobs:
         run: yarn
 
       - name: Install Vercel CLI
-        run: yarn global add vercel
+        run: yarn global add vercel@latest
 
       - name: Setting up Vercel Project
-        env:
-          VERCEL_EMAIL: ${{secrets.VERCEL_EMAIL}}
         run: |
-          vercel login $VERCEL_EMAIL
-          vercel link -y --project=convex-chat
-          vercel pull -y
+          vercel link -y --project=convex-chat --token=${{secrets.VERCEL_TOKEN}}
+          vercel pull -y --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Updating .env.local file
         env:
@@ -42,6 +39,7 @@ jobs:
           NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
           GITHUB_ID: ${{secrets.GIT_ID}}
           GITHUB_SECRET: ${{secrets.GIT_SECRET}}
+
         run: |
           echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.local
           echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env.local
@@ -53,5 +51,5 @@ jobs:
 
       - name: Build project
         run: |
-          vercel build
-          vercel deploy --prebuilt
+          vercel build --token=${{secrets.VERCEL_TOKEN}}
+          vercel deploy --prebuilt --token=${{secrets.VERCEL_TOKEN}}
